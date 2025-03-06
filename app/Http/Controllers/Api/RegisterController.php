@@ -37,7 +37,7 @@ class RegisterController extends BaseController
             //'device_token' => 'required',
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
-            'phone' => 'required',
+           // 'phone' => 'required',
             'password' => 'required|min:8',
             'confirm_password' => 'required|same:password',
 			'photo' => 'image|mimes:jpeg,png,jpg,bmp,gif,svg|max:2048',
@@ -69,7 +69,7 @@ class RegisterController extends BaseController
         $token =  $user->createToken('resume-builder')->plainTextToken;
         $users = $this->userinfo($request->email);
 
-		return response()->json(['success'=>true,'message'=>'User register successfully','user_info'=>$users]);
+		return response()->json(['success'=>true,'message'=>'User register successfully','token'=>$token,'user_info'=>$users]);
     }
 
     public function login(Request $request)
