@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->integer('department_id')->nullable();
+            // $table->integer('department_id')->nullable();
 			$table->string('name')->nullable();
             $table->string('email')->unique();
             $table->string('phone')->nullable();
