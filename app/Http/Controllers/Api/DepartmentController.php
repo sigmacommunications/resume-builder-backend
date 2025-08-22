@@ -66,7 +66,7 @@ class DepartmentController extends BaseController
 		// 	return $this->sendError($validator->errors()->first());
 		// }
 
-		$data = $validator->validated();
+		$data = $request->all();
 		$company = Company::where('user_id', Auth::id())->first();
 		$data['company_id'] = $company->id;
 
