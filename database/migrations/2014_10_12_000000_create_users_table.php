@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('lng')->nullable();
             // $table->string('dob')->nullable();
             // $table->string('gender')->nullable();
+            $table->integer('private')->default(0);
             $table->string('photo')->nullable();
 			$table->string('designation')->nullable();
             $table->text('device_token')->nullable();
