@@ -50,6 +50,7 @@ Route::group(['middleware' => ['api','auth:api'], 'prefix' => 'auth'], function 
 	Route::get('department_list',[App\Http\Controllers\Api\DepartmentController::class,'index']);
 	Route::post('add_department',[App\Http\Controllers\Api\DepartmentController::class,'store']);
 	Route::post('update_department/{id}',[App\Http\Controllers\Api\DepartmentController::class,'update']);
+	Route::post('delete_department/{id}',[App\Http\Controllers\Api\DepartmentController::class,'destroy']);
 	Route::get('employee_list/{companyid}',[App\Http\Controllers\Api\UserController::class,'employee_list']);
 	Route::post('add_employee',[App\Http\Controllers\Api\UserController::class,'add_employee']);
 	Route::post('add_company',[App\Http\Controllers\Api\UserController::class,'add_company']);

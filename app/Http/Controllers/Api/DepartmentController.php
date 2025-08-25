@@ -90,4 +90,26 @@ class DepartmentController extends BaseController
 		return $this->sendResponse($department, 'Department Updated Successfully');
 	}
 
+	public function destroy($id)
+	{
+		$company = Company::where('user_id', Auth::id())->first();
+
+		$department = Department::where('id', $id)
+			->where('company_id', $company->id)
+			->first();
+
+		if (!$department) {
+			return $this->sendError('Department not found or unauthorized access');
+		}
+
+		// पुरानी image delete कर दें अगर है
+		if (!empty($department->image) && file_exists(public_path($department->image))) {
+			unlink(public_path($department->image));
+		}
+
+		$department->delete();
+
+		return $this->sendResponse([], 'Department Deleted Successfully');
+	}
+
 }
