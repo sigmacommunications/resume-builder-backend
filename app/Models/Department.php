@@ -12,6 +12,6 @@ class Department extends Model
 	
 	public function employee()
 	{
-		return $this->belongsTo(Employee::class,'id','department_id');
+		return $this->belongsToMany(Employee::class,'id','department_id');
 	}
 }
