@@ -208,6 +208,34 @@ class UserController extends BaseController
 
 		return response()->json(['message' => 'Employee added successfully', 'employee' => $employee]);
     }
+
+
+	public function delete_employee($id)
+	{
+		$company = Company::where('user_id', Auth::id())->first();
+
+		$employee = Employee::where('id', $id)
+			->where('company_id', $company->id)
+			->first();
+
+		if (!$employee) {
+			return $this->sendError('Employee not found or unauthorized access');
+		}
+
+		if (!empty($employee->photo) && file_exists(public_path($employee->photo))) {
+			unlink(public_path($employee->photo));
+		}
+
+		$user = User::find($employee->user_id);
+		if ($user) {
+			$user->delete();
+		}
+
+		$employee->delete();
+
+		return $this->sendResponse([], 'Employee Deleted Successfully');
+	}
+
 	
 	
 

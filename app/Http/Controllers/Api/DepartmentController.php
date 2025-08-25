@@ -102,7 +102,6 @@ class DepartmentController extends BaseController
 			return $this->sendError('Department not found or unauthorized access');
 		}
 
-		// पुरानी image delete कर दें अगर है
 		if (!empty($department->image) && file_exists(public_path($department->image))) {
 			unlink(public_path($department->image));
 		}
