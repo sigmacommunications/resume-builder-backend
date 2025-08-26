@@ -73,7 +73,7 @@ class UserController extends BaseController
 	public function employee_list(Request $request,$id)
     {
 		//$company = Company::where('user_id',Auth::id())->first();
-		$user = Employee::where('company_id',$id)->get();
+		$user = Employee::with('department')->where('company_id',$id)->get();
 		//$user = User::with('detail')->where('company_id',$id)->get();
 		return response()->json(['message' => 'Employee List successfully', 'employee_list' => $user]);
     }
