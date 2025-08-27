@@ -14,6 +14,12 @@ class Employee extends Model
 	{
 		return $this->belongsTo(User::class);
 	}
+
+	public function departments()
+	{
+		return $this->belongsToMany(Department::class, 'department_employee', 'employee_id', 'department_id');
+	}
+
 	
 	public function templateAssigns()
 	{

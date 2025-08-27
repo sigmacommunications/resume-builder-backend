@@ -10,8 +10,9 @@ class Department extends Model
     use HasFactory;
 	protected $guarded =[];
 	
-	public function employee()
+	public function employees()
 	{
-		return $this->belongsToMany(Employee::class,'id','department_id');
+		return $this->belongsToMany(Employee::class, 'department_employee', 'department_id', 'employee_id');
 	}
+
 }
