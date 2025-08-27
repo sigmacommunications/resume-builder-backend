@@ -31,10 +31,10 @@ class Employee extends Model
 		return $this->hasOne(Company::class,'id','company_id');
 	}
 
-	public function department()
-	{
-		return $this->belongsTo(Department::class);
-	}
+	// public function department()
+	// {
+	// 	return $this->belongsTo(Department::class);
+	// }
 	
 	public function templatesss()
 	{
