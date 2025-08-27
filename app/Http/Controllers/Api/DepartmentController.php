@@ -23,7 +23,6 @@ class DepartmentController extends BaseController
 		return $this->sendResponse($data, 'Department List');
 	}
 
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
