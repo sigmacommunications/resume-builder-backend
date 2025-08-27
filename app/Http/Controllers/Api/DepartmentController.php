@@ -15,7 +15,7 @@ class DepartmentController extends BaseController
     public function index()
     {
 		$company = Company::where('user_id',Auth::id())->first();
-        $data = Department::with('employee')->where('company_id',$company->id)->get();
+        $data = Department::with('employees')->where('company_id',$company->id)->get();
         return $this->sendResponse($data, 'Department List');
 
     }
