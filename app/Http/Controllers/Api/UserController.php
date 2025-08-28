@@ -209,6 +209,67 @@ class UserController extends BaseController
 		return response()->json(['message' => 'Employee added successfully', 'employee' => $employee]);
     }
 
+	public function update_employee(Request $request, $id)
+	{
+		$employee = Employee::find($id);
+
+		if (!$employee) {
+			return $this->sendError('Employee not found.');
+		}
+
+		$user = $employee->user;
+
+		$validator = Validator::make($request->all(), [
+			'employee_email' => 'required|email|unique:users,email,' . $user->id,
+			'password' => 'nullable|min:6',
+			'full_name' => 'required|string',
+			'employee_phone_number' => 'required|string',
+			'department_id' => 'required|exists:departments,id',
+			'designation' => 'required|string',
+			'joining_date' => 'required',
+			'salary' => 'required|numeric'
+		]);
+
+		if ($validator->fails()) {
+			return $this->sendError($validator->errors()->first());
+		}
+
+		// Photo upload
+		$fileName = $employee->photo; // agar nayi photo na aye to purani photo rahe
+		if ($request->hasFile('photo')) {
+			$file = $request->file('photo');
+			$fileName = md5($file->getClientOriginalName() . time()) . '.' . $file->getClientOriginalExtension();
+			$file->move('uploads/user/profiles/', $fileName);
+			$fileName = '/uploads/user/profiles/' . $fileName;
+		}
+
+		// User update
+		$user->update([
+			'company_id' => $request->company_id ?? $user->company_id,
+			'name' => $request->name ?? $user->name,
+			'email' => $request->employee_email,
+			'password' => $request->password ? bcrypt($request->password) : $user->password,
+		]);
+
+		// Employee update
+		$employee->update([
+			'full_name' => $request->full_name,
+			'employee_email' => $request->employee_email,
+			'employee_phone_number' => $request->employee_phone_number,
+			'department_id' => $request->department_id,
+			'designation' => $request->designation,
+			'joining_date' => $request->joining_date,
+			'salary' => $request->salary,
+			'photo' => $fileName,
+		]);
+
+		return response()->json([
+			'message' => 'Employee updated successfully',
+			'employee' => $employee
+		]);
+	}
+
+
 
 	public function delete_employee($id)
 	{
