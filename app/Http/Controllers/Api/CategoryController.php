@@ -11,7 +11,40 @@ class CategoryController extends BaseController
 {
     public function index()
     {
-		$resume = Category::with('templates')->get();
-        return $this->sendResponse($resume, 'Category Lists');
+		$categories = Category::with(['templates' => function($q) {
+            $q->where('status', 'active');
+        }])->where('status','active')->get();
+
+        $userId = auth()->id();
+
+        $data = $categories->map(function($cat) use ($userId) {
+            return [
+                'id'   => $cat->id,
+                'name' => $cat->name,
+                'slug' => $cat->slug,
+                'templates' => $cat->templates->map(function($tpl) use ($userId) {
+                    $purchased = \App\Models\TemplatePurchase::where('user_id', $userId)
+                        ->where('template_id', $tpl->id)
+                        ->where('status', 'completed')
+                        ->exists();
+
+                    return [
+                        'id'           => $tpl->id,
+                        'heading'      => $tpl->heading,
+                        'price'        => $tpl->price,
+                        'image'        => $tpl->image,
+                        'type'         => $tpl->type,
+                        'key'          => $tpl->key,
+                        'description'  => $tpl->description,
+                        'is_purchased' => $purchased,
+                    ];
+                })
+            ];
+        });
+
+        return response()->json([
+            'success' => true,
+            'data'    => $data
+        ]);
     }
 }
