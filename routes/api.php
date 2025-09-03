@@ -47,6 +47,7 @@ Route::group(['middleware' => ['api','auth:api'], 'prefix' => 'auth'], function 
 	Route::get('employee/{employeeID}',[App\Http\Controllers\Api\UserController::class,'employee_detail']);
 	
 	Route::get('category-list',[App\Http\Controllers\Api\CategoryController::class,'index']);
+    Route::post('/templates-buy/{template}', [TemplatePurchaseController::class, 'buy']);
 	Route::get('department_list',[App\Http\Controllers\Api\DepartmentController::class,'index']);
 	Route::post('add_department',[App\Http\Controllers\Api\DepartmentController::class,'store']);
 	Route::post('update_department/{id}',[App\Http\Controllers\Api\DepartmentController::class,'update']);
