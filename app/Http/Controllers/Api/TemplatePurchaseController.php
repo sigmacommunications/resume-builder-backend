@@ -174,20 +174,20 @@ class TemplatePurchaseController extends Controller
     //     ]);
     // }
 
-    // private function purchaseResource(TemplatePurchase $p): array
-    // {
-    //     return [
-    //         'purchase_id'   => $p->id,
-    //         'user_id'       => $p->user_id,
-    //         'template_id'   => $p->template_id,
-    //         'category_id'   => $p->category_id,
-    //         'amount'        => (float)$p->amount,
-    //         'currency'      => $p->currency,
-    //         'status'        => $p->status,
-    //         'payment_method'=> $p->payment_method,
-    //         'transaction_id'=> $p->transaction_id,
-    //         'meta'          => $p->meta,
-    //         'created_at'    => optional($p->created_at)->toIso8601String(),
-    //     ];
-    // }
+    private function purchaseResource(TemplatePurchase $p): array
+    {
+        return [
+            'purchase_id'   => $p->id,
+            'user_id'       => $p->user_id,
+            'template_id'   => $p->template_id,
+            'category_id'   => $p->category_id,
+            'amount'        => (float)$p->amount,
+            'currency'      => $p->currency,
+            'status'        => $p->status,
+            'payment_method'=> $p->payment_method,
+            'transaction_id'=> $p->transaction_id,
+            'meta'          => $p->meta,
+            'created_at'    => optional($p->created_at)->toIso8601String(),
+        ];
+    }
 }
