@@ -26,7 +26,7 @@ class TemplateAssignController extends BaseController
         $savedResponses = [];
 
         // Agar image/document hua to multiple allow hoga
-        if (in_array($request->response_type, ['image', 'document'])) {
+        if (in_array($request->response_type, ['image', 'document','signature'])) {
             foreach ($request->file('response_value') as $file) {
                 $path = $file->store('responses', 'public');
 
