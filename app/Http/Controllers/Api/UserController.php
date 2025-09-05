@@ -66,7 +66,7 @@ class UserController extends BaseController
 						\App\Models\CoverLetter::class => ['template'],
 					]);
 				}
-			])->find($id);
+			,'templateAssigns.responses'])->find($id);
 		return response()->json(['message' => 'Employee Detail', 'employee_info' => $user]);
 	}
 	
