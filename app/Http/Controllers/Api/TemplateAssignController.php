@@ -14,6 +14,7 @@ class TemplateAssignController extends BaseController
     public function storeResponse(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'employee_id' => 'required|exists:employees,id',
             'template_assign_id' => 'required|exists:template_assigns,id',
             'response_type' => 'required|in:text,image,document,signature',
             'response_value' => 'required'
@@ -22,21 +23,34 @@ class TemplateAssignController extends BaseController
         if ($validator->fails()) {
 			return $this->sendError($validator->errors()->first());
 		}
+        $savedResponses = [];
 
-        $response = new TemplateResponse();
-        $response->employee_id = auth()->id(); // ya employee ka id jo pass kro
-        $response->template_assign_id = $request->template_assign_id;
-        $response->response_type = $request->response_type;
-
-        // File upload handling
+        // Agar image/document hua to multiple allow hoga
         if (in_array($request->response_type, ['image', 'document'])) {
-            $path = $request->file('response_value')->store('responses', 'public');
-            $response->response_value = $path;
+            foreach ($request->file('response_value') as $file) {
+                $path = $file->store('responses', 'public');
+
+                $response = \App\Models\TemplateResponse::create([
+                    'employee_id' => $request->employee_id,
+                    'template_assign_id' => $request->template_assign_id,
+                    'response_type' => $request->response_type,
+                    'response_value' => $path,
+                ]);
+
+                $savedResponses[] = $response;
+            }
         } else {
-            $response->response_value = $request->response_value;
+            // text ya signature single hoga
+            $response = \App\Models\TemplateResponse::create([
+                'employee_id' => $request->employee_id,
+                'template_assign_id' => $request->template_assign_id,
+                'response_type' => $request->response_type,
+                'response_value' => $request->response_value,
+            ]);
+
+            $savedResponses[] = $response;
         }
 
-        $response->save();
 
         return response()->json([
             'success' => true,
