@@ -45,6 +45,7 @@ Route::group(['middleware' => ['api','auth:api'], 'prefix' => 'auth'], function 
 
 	Route::post('template_assign',[App\Http\Controllers\Api\TemplateAssignController::class,'assign']);
 	Route::get('employee/{employeeID}',[App\Http\Controllers\Api\UserController::class,'employee_detail']);
+	Route::post('template_response',[App\Http\Controllers\Api\TemplateAssignController::class,'storeResponse']);
 	
 	Route::get('category-list',[App\Http\Controllers\Api\CategoryController::class,'index']);
     Route::post('/templates-buy', [App\Http\Controllers\Api\TemplatePurchaseController::class, 'buyMultiple']);

@@ -15,7 +15,11 @@ class TemplateAssign extends Model
 		return $this->belongsTo(Template::class);
 	}
 	
-	
+	public function responses()
+	{
+		return $this->hasMany(TemplateResponse::class, 'template_assign_id');
+	}
+
 	public function assignable()
 	{
 		return $this->morphTo(__FUNCTION__, 'type', 'assignable_id');
